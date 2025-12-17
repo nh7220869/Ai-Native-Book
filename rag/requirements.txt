@@ -1,0 +1,10 @@
+qdrant-client
+psycopg2-binary
+openai
+python-dotenv
+markdown
+tiktoken
+unstructured
+Flask
+Flask-CORS
+gunicorn
