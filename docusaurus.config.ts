@@ -24,9 +24,10 @@ const config: Config = {
   },
 
   customFields: {
-    // Single source of truth for all API endpoints
-    // Update API_BASE_URL in .env for local development or Vercel environment variables for production
-    apiBaseUrl: process.env.API_BASE_URL || 'http://localhost:3001',
+    // API Base URL Configuration
+    // IMPORTANT: For production on Vercel with same-domain deployment, this MUST be empty string ''
+    // This will be overridden by environment variable if set
+    apiBaseUrl: process.env.API_BASE_URL !== undefined ? process.env.API_BASE_URL : '',
   },
 
   presets: [
