@@ -7,6 +7,14 @@
       "config": {
         "distDir": "build"
       }
+    },
+    {
+      "src": "api/index.js",
+      "use": "@vercel/node",
+      "config": {
+        "memory": 1024,
+        "maxDuration": 30
+      }
     }
   ],
   "routes": [
@@ -30,11 +38,5 @@
       "src": "/(.*)",
       "dest": "/build/$1"
     }
-  ],
-  "functions": {
-    "api/index.js": {
-      "memory": 1024,
-      "maxDuration": 30
-    }
-  }
+  ]
 }
