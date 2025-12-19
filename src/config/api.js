@@ -18,9 +18,13 @@ import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 export const useApiConfig = () => {
   const { siteConfig } = useDocusaurusContext();
 
+<<<<<<< HEAD
   // Remove trailing slash to ensure consistent URL formatting
   let baseUrl = siteConfig.customFields?.apiBaseUrl || 'https://backend-jada-radta.vercel.app';
   baseUrl = baseUrl.replace(/\/+$/, ''); // Remove trailing slashes
+=======
+  const baseUrl = siteConfig.customFields?.apiBaseUrl || 'https://backend-jada-radta.vercel.app/';
+>>>>>>> 73ab3fc93fcc058d1953ff7f0c102f9884704727
 
   return {
     BASE_URL: baseUrl,
@@ -63,6 +67,7 @@ export const getApiBaseUrl = () => {
       // Fallback to production URL
       baseUrl = 'https://backend-jada-radta.vercel.app';
     }
+<<<<<<< HEAD
   } else {
     // Server-side or build-time - this won't execute in browser
     baseUrl = 'https://backend-jada-radta.vercel.app';
@@ -70,6 +75,14 @@ export const getApiBaseUrl = () => {
 
   // Remove trailing slashes for consistency
   return baseUrl.replace(/\/+$/, '');
+=======
+    // Fallback to localhost for development
+    return 'https://backend-jada-radta.vercel.app/';
+  }
+
+  // Server-side or build-time - this won't execute in browser
+  return 'https://backend-jada-radta.vercel.app/';
+>>>>>>> 73ab3fc93fcc058d1953ff7f0c102f9884704727
 };
 
 /**
