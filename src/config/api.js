@@ -18,7 +18,7 @@ import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 export const useApiConfig = () => {
   const { siteConfig } = useDocusaurusContext();
 
-  const baseUrl = siteConfig.customFields?.apiBaseUrl || 'http://localhost:3001';
+  const baseUrl = siteConfig.customFields?.apiBaseUrl || 'https://backend-jada-radta.vercel.app/';
 
   return {
     BASE_URL: baseUrl,
@@ -58,11 +58,11 @@ export const getApiBaseUrl = () => {
       return window.docusaurus.siteConfig.customFields.apiBaseUrl;
     }
     // Fallback to localhost for development
-    return 'http://localhost:3001';
+    return 'https://backend-jada-radta.vercel.app/';
   }
 
   // Server-side or build-time - this won't execute in browser
-  return 'http://localhost:3001';
+  return 'https://backend-jada-radta.vercel.app/';
 };
 
 /**
