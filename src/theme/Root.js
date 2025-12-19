@@ -4,6 +4,7 @@ import TextSelectionPopup from '@site/src/components/TextSelectionPopup';
 import TranslationModal from '@site/src/components/TranslationModal';
 import PageTranslator from '@site/src/components/PageTranslator';
 import ErrorBoundary from '@site/src/components/ErrorBoundary';
+import SessionDebug from '@site/src/components/SessionDebug';
 import { AuthProvider } from '@site/src/contexts/AuthContext';
 import { TranslationProvider } from '@site/src/contexts/TranslationContext';
 import LoadingScreen from '@site/src/components/LoadingScreen';
@@ -126,6 +127,7 @@ function Root({ children }) {
             error={translationModal.error}
           />
           <Chatbot ref={chatbotRef} />
+          <SessionDebug />
         </TranslationProvider>
       </AuthProvider>
     </ErrorBoundary>
