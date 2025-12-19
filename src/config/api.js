@@ -18,7 +18,9 @@ import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 export const useApiConfig = () => {
   const { siteConfig } = useDocusaurusContext();
 
-  const baseUrl = siteConfig.customFields?.apiBaseUrl || 'https://backend-jada-radta.vercel.app/';
+  // Remove trailing slash to ensure consistent URL formatting
+  let baseUrl = siteConfig.customFields?.apiBaseUrl || 'https://backend-jada-radta.vercel.app';
+  baseUrl = baseUrl.replace(/\/+$/, ''); // Remove trailing slashes
 
   return {
     BASE_URL: baseUrl,
@@ -27,7 +29,7 @@ export const useApiConfig = () => {
       AUTH_SIGNUP: `${baseUrl}/api/auth/sign-up/email`,
       AUTH_SIGNIN: `${baseUrl}/api/auth/sign-in/email`,
       AUTH_SIGNOUT: `${baseUrl}/api/auth/sign-out`,
-      AUTH_SESSION: `${baseUrl}/api/auth/session`,
+      AUTH_SESSION: `${baseUrl}/api/auth/get-session`,
       AUTH_HEALTH: `${baseUrl}/api/auth/auth-health`,
 
       // Translation
@@ -51,18 +53,23 @@ export const useApiConfig = () => {
  * Works in both browser and server environments
  */
 export const getApiBaseUrl = () => {
+  let baseUrl;
   // Check if we're in browser
   if (typeof window !== 'undefined') {
     // Try to get from window object (set by Docusaurus)
     if (window.docusaurus?.siteConfig?.customFields?.apiBaseUrl) {
-      return window.docusaurus.siteConfig.customFields.apiBaseUrl;
+      baseUrl = window.docusaurus.siteConfig.customFields.apiBaseUrl;
+    } else {
+      // Fallback to production URL
+      baseUrl = 'https://backend-jada-radta.vercel.app';
     }
-    // Fallback to localhost for development
-    return 'https://backend-jada-radta.vercel.app/';
+  } else {
+    // Server-side or build-time - this won't execute in browser
+    baseUrl = 'https://backend-jada-radta.vercel.app';
   }
 
-  // Server-side or build-time - this won't execute in browser
-  return 'https://backend-jada-radta.vercel.app/';
+  // Remove trailing slashes for consistency
+  return baseUrl.replace(/\/+$/, '');
 };
 
 /**
@@ -80,7 +87,7 @@ export const API_CONFIG = {
       AUTH_SIGNUP: `${baseUrl}/api/auth/sign-up/email`,
       AUTH_SIGNIN: `${baseUrl}/api/auth/sign-in/email`,
       AUTH_SIGNOUT: `${baseUrl}/api/auth/sign-out`,
-      AUTH_SESSION: `${baseUrl}/api/auth/session`,
+      AUTH_SESSION: `${baseUrl}/api/auth/get-session`,
       AUTH_HEALTH: `${baseUrl}/api/auth/auth-health`,
 
       // Translation
@@ -101,7 +108,7 @@ export const API_CONFIG = {
 
 /**
  * Helper to build API URL
- * @param {string} endpoint - Endpoint path (e.g., '/api/auth/session')
+ * @param {string} endpoint - Endpoint path (e.g., '/api/authget-session')
  * @returns {string} Full URL
  */
 export const buildApiUrl = (endpoint) => {

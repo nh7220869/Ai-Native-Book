@@ -22,12 +22,16 @@ const __dirname = path.dirname(__filename);
 
 const app = express();
 
-// Apply CORS middleware
+// Apply CORS middleware with enhanced configuration for cross-domain cookies
 app.use(cors({
   origin: config.cors.allowedOrigins,
-  credentials: true,
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization']
+  credentials: true, // CRITICAL: Allow cookies to be sent cross-domain
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept'],
+  exposedHeaders: ['Set-Cookie'], // Expose Set-Cookie header to the client
+  maxAge: 86400, // Cache preflight requests for 24 hours
+  preflightContinue: false,
+  optionsSuccessStatus: 204
 }));
 
 // Parse JSON bodies
@@ -64,7 +68,7 @@ const initializeServices = async () => {
           'POST /api/auth/sign-up/email',
           'POST /api/auth/sign-in/email',
           'POST /api/auth/sign-out',
-          'GET /api/auth/session',
+          'GET /api/auth/get-session',
           'POST /api/gemini/translate',
           'POST /api/translate',
           'POST /api/personalize',
