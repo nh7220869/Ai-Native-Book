@@ -5,8 +5,6 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// Load .env from project root (central-backend/.env)
-// __dirname is central-backend/src/config, so go up 2 levels
 dotenv.config({ path: path.join(__dirname, '..', '..', '.env') });
 
 const config = {
@@ -18,7 +16,7 @@ const config = {
     apiKey: process.env.OPENROUTER_API_KEY,
     baseUrl: process.env.OPENROUTER_BASE_URL || 'https://openrouter.ai/api/v1',
     chatModel: process.env.OPENROUTER_CHAT_MODEL || 'google/gemini-2.0-flash-exp:free',
-    embeddingModel: process.env.OPENROUTER_EMBEDDING_MODEL || 'openai/text-embedding-ada-002' // Assuming OpenRouter can provide embeddings
+    embeddingModel: process.env.OPENROUTER_EMBEDDING_MODEL || 'openai/text-embedding-ada-002'
   },
   qdrant: {
     url: process.env.QDRANT_URL || 'http://localhost:6333',
@@ -26,18 +24,33 @@ const config = {
     collectionName: process.env.QDRANT_COLLECTION_NAME || 'book_content',
   },
   cors: {
-    allowedOrigins: process.env.CORS_ALLOWED_ORIGINS ? process.env.CORS_ALLOWED_ORIGINS.split(',') : [
+    allowedOrigins: [
+      'https://physical-ai-humanoid-robotics-book-eight-kappa.vercel.app',
+      'https://ai-native-book-tf39.vercel.app',
+      'https://ai-native-book-*.vercel.app',
       'https://Ai-Native-Book.vercel.app',
       'https://physical-ai-humanoid-robotics-book-eosin.vercel.app',
       'http://localhost:3000',
-      'https://ai-native-book-tf39.vercel.app',
       'http://localhost:5001',
       'http://localhost:3001'
     ],
+    allowedMethods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
+    allowedHeaders: [
+      'Content-Type',
+      'Authorization',
+      'X-Requested-With',
+      'Accept',
+      'Origin',
+      'Cookie',
+      'Access-Control-Request-Method',
+      'Access-Control-Request-Headers'
+    ],
+    exposedHeaders: ['Set-Cookie'],
+    credentials: true,
+    maxAge: 86400,
   }
 };
 
-// Validate essential configurations
 if (!config.db.connectionString) {
   console.warn('WARNING: DATABASE_URL is not set. Database functionalities might be limited.');
 }
