@@ -3,6 +3,16 @@ import dotenv from 'dotenv';
 import path from 'path';
 import { fileURLToPath } from 'url';
 
+import cors from 'cors';
+
+app.use(cors({
+  origin: 'https://physical-ai-humanoid-robotics-book-eight-kappa.vercel.app',
+  credentials: true
+}));
+
+app.options('*', cors());
+
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
